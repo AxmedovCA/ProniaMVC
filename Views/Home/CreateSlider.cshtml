@@ -1,0 +1,26 @@
+﻿@{
+	Layout = null;
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<form method="get" asp-controller="Home" asp-action="CreateNewSlider">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Title</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" name="title" placeholder="Enter title">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Description</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" name="description" placeholder="Enter description">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">ImageUrl</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" name="imageUrl" placeholder="Enter imageUrl">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Discount Percentage</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" name="discountPercentage" placeholder="Enter Discount Percentage">
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
