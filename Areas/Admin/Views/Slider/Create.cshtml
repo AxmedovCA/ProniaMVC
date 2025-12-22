@@ -1,0 +1,30 @@
+﻿@model Slider;
+<div class="container">
+
+	<div class="row">
+        <form method="post" asp-controller="Slider" asp-action="Create">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Title</label>
+                <input  class="form-control" id="exampleInputEmail1" asp-for="Title" placeholder="Enter title">
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Description</label>
+                <input class="form-control" id="exampleInputEmail1" asp-for="Description" placeholder="Enter description">
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">ImageUrl</label>
+                <input class="form-control" id="exampleInputEmail1" asp-for="ImageUrl" placeholder="Enter imageUrl">
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Discount Percentage</label>
+                <input class="form-control" id="exampleInputEmail1" asp-for="DiscountPercentage" placeholder="Enter Discount Percentage">
+                <span asp-validation-for="DiscountPercentage" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+	</div>
+</div>
