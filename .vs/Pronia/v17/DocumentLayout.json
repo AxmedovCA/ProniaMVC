@@ -3,20 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\user\\Desktop\\StepDZ\\Pronia\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{37039B27-8F9E-4D00-B899-40570AF0EC00}|Pronia.csproj|c:\\users\\user\\desktop\\stepdz\\pronia\\areas\\admin\\views\\shipping\\update.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{37039B27-8F9E-4D00-B899-40570AF0EC00}|Pronia.csproj|solutionrelative:areas\\admin\\views\\shipping\\update.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{37039B27-8F9E-4D00-B899-40570AF0EC00}|Pronia.csproj|c:\\users\\user\\desktop\\stepdz\\pronia\\areas\\admin\\views\\shipping\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{37039B27-8F9E-4D00-B899-40570AF0EC00}|Pronia.csproj|solutionrelative:areas\\admin\\views\\shipping\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{37039B27-8F9E-4D00-B899-40570AF0EC00}|Pronia.csproj|c:\\users\\user\\desktop\\stepdz\\pronia\\areas\\admin\\controllers\\shippingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{37039B27-8F9E-4D00-B899-40570AF0EC00}|Pronia.csproj|solutionrelative:areas\\admin\\controllers\\shippingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{37039B27-8F9E-4D00-B899-40570AF0EC00}|Pronia.csproj|c:\\users\\user\\desktop\\stepdz\\pronia\\areas\\admin\\views\\shipping\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{37039B27-8F9E-4D00-B899-40570AF0EC00}|Pronia.csproj|solutionrelative:areas\\admin\\views\\shipping\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{37039B27-8F9E-4D00-B899-40570AF0EC00}|Pronia.csproj|c:\\users\\user\\desktop\\stepdz\\pronia\\areas\\admin\\views\\slider\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{37039B27-8F9E-4D00-B899-40570AF0EC00}|Pronia.csproj|solutionrelative:areas\\admin\\views\\slider\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -25,59 +17,33 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 182,
-          "SelectedChildIndex": 0,
+          "DockedWidth": 231,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\user\\Desktop\\StepDZ\\Pronia\\Areas\\Admin\\Views\\Shipping\\Create.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Shipping\\Create.cshtml",
               "ToolTip": "C:\\Users\\user\\Desktop\\StepDZ\\Pronia\\Areas\\Admin\\Views\\Shipping\\Create.cshtml",
               "RelativeToolTip": "Areas\\Admin\\Views\\Shipping\\Create.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAABQAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAkAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-22T23:06:41.381Z",
+              "WhenOpened": "2025-12-23T18:18:49.197Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ShippingController.cs",
-              "DocumentMoniker": "C:\\Users\\user\\Desktop\\StepDZ\\Pronia\\Areas\\Admin\\Controllers\\ShippingController.cs",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ShippingController.cs",
-              "ToolTip": "C:\\Users\\user\\Desktop\\StepDZ\\Pronia\\Areas\\Admin\\Controllers\\ShippingController.cs",
-              "RelativeToolTip": "Areas\\Admin\\Controllers\\ShippingController.cs",
-              "ViewState": "AQIAABIAAAAAAAAAAAAYwBcAAAAlAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-22T23:01:03.89Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\user\\Desktop\\StepDZ\\Pronia\\Areas\\Admin\\Views\\Slider\\Index.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Slider\\Index.cshtml",
-              "ToolTip": "C:\\Users\\user\\Desktop\\StepDZ\\Pronia\\Areas\\Admin\\Views\\Slider\\Index.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Slider\\Index.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAATAAAA",
+              "DocumentIndex": 0,
+              "Title": "Update.cshtml",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\StepDZ\\Pronia\\Areas\\Admin\\Views\\Shipping\\Update.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Shipping\\Update.cshtml",
+              "ToolTip": "C:\\Users\\user\\Desktop\\StepDZ\\Pronia\\Areas\\Admin\\Views\\Shipping\\Update.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Shipping\\Update.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAPAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-22T22:59:00.556Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\user\\Desktop\\StepDZ\\Pronia\\Areas\\Admin\\Views\\Shipping\\Index.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Shipping\\Index.cshtml",
-              "ToolTip": "C:\\Users\\user\\Desktop\\StepDZ\\Pronia\\Areas\\Admin\\Views\\Shipping\\Index.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Shipping\\Index.cshtml",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAkwBoAAAA2AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-22T22:48:50.57Z",
+              "WhenOpened": "2025-12-23T18:18:11.859Z",
               "EditorCaption": ""
             }
           ]

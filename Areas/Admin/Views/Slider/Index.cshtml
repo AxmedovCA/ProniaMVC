@@ -29,7 +29,7 @@
                         <td><img src="~/assets/images/website-images/@slider.ImageUrl" alt="Alternate Text" /></td>
                 <td>@slider.DiscountPercentage</td>
                 <td>
-                    <a class="btn btn-warning">Uptade</a>
+                    <a class="btn btn-warning" asp-action="Update" asp-route-id = "@slider.Id">Uptade</a>
 							<a asp-action="Delete" asp-route-id ="@slider.Id" class="btn btn-danger">Delete</a>
                 </td>
             </tr>

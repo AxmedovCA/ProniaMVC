@@ -1,8 +1,8 @@
-﻿@model Shipping
+﻿@model Slider;
 <div class="container">
 
     <div class="row">
-        <form method="post" asp-controller="Shipping" asp-action="CreateShipping">
+        <form method="post" asp-controller="Slider" asp-action="Update">
             <div class="form-group">
                 <label for="exampleInputEmail1">Title</label>
                 <input class="form-control" id="exampleInputEmail1" asp-for="Title" placeholder="Enter title">
@@ -18,10 +18,13 @@
                 <input class="form-control" id="exampleInputEmail1" asp-for="ImageUrl" placeholder="Enter imageUrl">
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
-         
+            <div class="form-group">
+                <label for="exampleInputEmail1">Discount Percentage</label>
+                <input class="form-control" id="exampleInputEmail1" asp-for="DiscountPercentage" placeholder="Enter Discount Percentage">
+                <span asp-validation-for="DiscountPercentage" class="text-danger"></span>
+            </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>
-            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
         </form>
     </div>
 </div>
