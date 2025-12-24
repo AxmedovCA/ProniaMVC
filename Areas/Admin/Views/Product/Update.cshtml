@@ -1,0 +1,55 @@
+﻿@model Product;
+<div class="container">
+
+    <div class="row">
+        <h2>Update new Product</h2>
+        <form method="post" asp-controller="Product" asp-action="Update">
+            <div class="text-danger" asp-validation-summary="All"></div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Name</label>
+                <input class="form-control" id="exampleInputEmail1" asp-for="Name" placeholder="Enter name">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Description</label>
+                <input class="form-control" id="exampleInputEmail1" asp-for="Description" placeholder="Enter description">
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">MainImageUrl</label>
+                <input class="form-control" id="exampleInputEmail1" asp-for="MainImageUrl" placeholder="Enter MainImageUrl">
+                <span asp-validation-for="MainImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">HoverImageUrl</label>
+                <input class="form-control" id="exampleInputEmail1" asp-for="HoverImageUrl" placeholder="Enter HoverImageUrl">
+                <span asp-validation-for="HoverImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Price</label>
+                <input class="form-control" id="exampleInputEmail1" asp-for="Price" placeholder="Enter Price">
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">SKU</label>
+                <input class="form-control" id="exampleInputEmail1" asp-for="SKU" placeholder="Enter SKU">
+                <span asp-validation-for="SKU" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">CategoryId</label>
+                <select asp-for="CategoryId">
+                    @foreach (Category category in ViewBag.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+
+        </form>
+    </div>
+</div>

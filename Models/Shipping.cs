@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Pronia.Models.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace Pronia.Models
 {
-    public class Shipping
+    public class Shipping:BaseEntity
     {
-        public int Id { get; set; }
+    
         [Required]
         [MaxLength(100)]
         public string Title { get; set; }
