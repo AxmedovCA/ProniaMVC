@@ -1,4 +1,4 @@
-﻿@model List<Product>
+﻿@model List<ProductGetVM>
 
 <div class="container">
 	<div class="row">
@@ -30,7 +30,7 @@
 						<td>@product.Name</td>
 						<td>@product.Description</td>
 						<td>@product.Price</td>
-						<td>@product.Category.Name</td>
+						<td>@product.CategoryName</td>
 						<td>
 							<a class="btn btn-warning" asp-action="Update" asp-route-id="@product.Id">Uptade</a>
 							<a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger deleteBtn">Delete</a>

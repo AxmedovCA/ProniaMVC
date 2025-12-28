@@ -1,9 +1,9 @@
-﻿@model Product;
+﻿@model ProductCreateVM  ;
 <div class="container">
 
     <div class="row">
         <h2>Create new Product</h2>
-        <form method="post" asp-controller="Product" asp-action="Create">
+        <form method="post" asp-controller="Product" asp-action="Create" enctype="multipart/form-data">
             <div class="text-danger" asp-validation-summary="All"></div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Name</label>
@@ -17,13 +17,13 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">MainImageUrl</label>
-                <input class="form-control" id="exampleInputEmail1" asp-for="MainImageUrl" placeholder="Enter MainImageUrl">
-                <span asp-validation-for="MainImageUrl" class="text-danger"></span>
+                <input class="form-control" id="exampleInputEmail1" asp-for="MainImage" placeholder="Enter MainImageUrl">
+                <span asp-validation-for="MainImage" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">HoverImageUrl</label>
-                <input class="form-control" id="exampleInputEmail1" asp-for="HoverImageUrl" placeholder="Enter HoverImageUrl">
-                <span asp-validation-for="HoverImageUrl" class="text-danger"></span>
+                <input class="form-control" id="exampleInputEmail1" asp-for="HoverImage" placeholder="Enter HoverImageUrl">
+                <span asp-validation-for="HoverImage" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Price</label>

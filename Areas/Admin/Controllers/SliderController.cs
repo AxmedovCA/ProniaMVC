@@ -5,8 +5,16 @@ using Pronia.Contexts;
 namespace Pronia.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class SliderController(AppDbContext _context) : Controller
+    public class SliderController : Controller
     {
+        private readonly AppDbContext _context;
+        private readonly IWebHostEnvironment _enviroment;
+
+        public SliderController(AppDbContext context,IWebHostEnvironment enviroment)
+        {
+            _context = context; 
+            _enviroment = enviroment;
+        }
 
         public IActionResult Index()
         {
@@ -27,11 +35,35 @@ namespace Pronia.Areas.Admin.Controllers
                 return View();
             }
 
+
+
             if (slider.DiscountPercentage < 0 || slider.DiscountPercentage > 100)
             {
                 ModelState.AddModelError("DiscountPercentage", "Endirim 0 100 araliqinda olmalidir");
                 return View();
             }
+            if (!slider.Image.ContentType.Contains("image"))
+            {
+                ModelState.AddModelError("Image", "Yalniz sekil formatinda data daxil ede bilersiz");
+                return View(slider);
+            }
+            if(slider.Image.Length > 2 * Math.Pow(2, 20))
+            {
+                ModelState.AddModelError("Image", "Max 2 mb sekil yukleye bilersiz");
+                return View(slider);
+            }
+
+            string uniqueFileName = Guid.NewGuid().ToString() + slider.Image.FileName;
+            //string folderPath = @$"{_enviroment.WebRootPath}\assets\images\website-images\{uniqueFileName}";
+            string folderPath = Path.Combine(_enviroment.WebRootPath, "assets", "images", "website-images", uniqueFileName);
+           using FileStream stream = new(folderPath,FileMode.Create);
+
+            slider.Image.CopyTo(stream);
+            slider.ImageUrl = uniqueFileName;
+
+
+
+
             _context.Sliders.Add(slider);
             _context.SaveChanges();
             return RedirectToAction("Index");
@@ -45,6 +77,10 @@ namespace Pronia.Areas.Admin.Controllers
             }
             _context.Sliders.Remove(slider);
             _context.SaveChanges();
+
+            string folderPath = Path.Combine(_enviroment.WebRootPath, "assets", "images", "website-images", slider.ImageUrl);
+            if(System.IO.File.Exists(folderPath))
+                System.IO.File.Delete(folderPath);
             return RedirectToAction("Index");
         }
         [HttpGet]

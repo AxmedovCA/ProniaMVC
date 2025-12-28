@@ -4,6 +4,7 @@ using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Plugins;
 using Pronia.Models.Common;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace Pronia.Models
 {
     public class Product : BaseEntity
@@ -17,10 +18,12 @@ namespace Pronia.Models
         public string? SKU { get; set; }
         [Required]
         public int CategoryId { get; set; }
-        public Category? Category { get; set; }
+        public Category Category { get; set; }
         [Required]
         public string MainImageUrl { get; set; }
+        
         [Required]
         public string HoverImageUrl { get; set; }
+        
     }
 }

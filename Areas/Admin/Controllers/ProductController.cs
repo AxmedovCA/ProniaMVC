@@ -1,16 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Pronia.Contexts;
+using Pronia.Helpers;
+using Pronia.Models;
+using Pronia.ViewModels.ProductViewModels;
 
 namespace Pronia.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ProductController(AppDbContext _context) : Controller
+    public class ProductController(AppDbContext _context, IWebHostEnvironment _environment) : Controller
     {
         public IActionResult Index()
         {
-            var products = _context.Products.Include(x=>x.Category).ToList();
-            return View(products);
+            List<ProductGetVM> vms = _context.Products.Include(x => x.Category).Select(x => new ProductGetVM()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                CategoryName = x.Category.Name,
+                HoverImageUrl = x.HoverImageUrl,
+                Price = x.Price,
+                SKU = x.SKU,
+                MainImageUrl = x.MainImageUrl,
+            }).ToList();
+            return View(vms);
         }
         [HttpGet]
         public IActionResult Create()
@@ -19,25 +32,62 @@ namespace Pronia.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Product product)
+        public IActionResult Create(ProductCreateVM vm)
         {
-            if (product.Price < 0)
+            if (vm.Price < 0)
             {
-                ModelState.AddModelError(nameof(product.Price), "Price menfi ola bilmez");
+                ModelState.AddModelError(nameof(vm.Price), "Price menfi ola bilmez");
             }
 
             if (!ModelState.IsValid)
             {
                 SendCategoriesWithViewBag();
-                return View(product);
+                return View(vm);
             }
 
-            var isExistCategory = _context.Categories.Any(x => x.Id == product.CategoryId);
-            if(!isExistCategory) {
+
+            var isExistCategory = _context.Categories.Any(x => x.Id == vm.CategoryId);
+            if (!isExistCategory)
+            {
                 SendCategoriesWithViewBag();
                 ModelState.AddModelError("", "Bu kateqoriya movcud deyil");
-            return View(product);
+                return View(vm);
             }
+            if (!vm.MainImage.CheckType("image"))
+            {
+                ModelState.AddModelError("MainImage", "Yalniz sekil formatinda data daxil ede bilersiz");
+                return View(vm);
+            }
+            if (!vm.MainImage.CheckSize(2))
+            {
+                ModelState.AddModelError("MainImage", "Max 2 mb sekil yukleye bilersiz");
+                return View(vm);
+            }
+            if (!vm.HoverImage.CheckType("image"))
+            {
+                ModelState.AddModelError("HoverImage", "Yalniz sekil formatinda data daxil ede bilersiz");
+                return View(vm);
+            }
+            if (!vm.HoverImage.CheckSize(2))
+            {
+                ModelState.AddModelError("HoverImage", "Max 2 mb sekil yukleye bilersiz");
+                return View(vm);
+            }
+
+            string folderPath = Path.Combine(_environment.WebRootPath, "assets", "images", "website-images");
+            string mainImaneUniqueName = vm.MainImage.SaveFile(folderPath);
+            string hoverImaneUniqueName = vm.HoverImage.SaveFile(folderPath);
+            Product product = new Product()
+            {
+                Name = vm.Name,
+                Description = vm.Description,
+                SKU = vm.SKU,
+                CategoryId = vm.CategoryId,
+                Price = vm.Price,
+                MainImageUrl = mainImaneUniqueName,
+                HoverImageUrl = hoverImaneUniqueName,
+
+            };
             _context.Products.Add(product);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
@@ -53,38 +103,86 @@ namespace Pronia.Areas.Admin.Controllers
                 return NotFound();
             }
             SendCategoriesWithViewBag();
-            return View(product);
+            ProductUpdateVM vm = new ProductUpdateVM()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                CategoryId = product.CategoryId,
+                Price = product.Price,
+                SKU = product.SKU,
+            };
+            return View(vm);
         }
 
         [HttpPost]
-        public IActionResult Update(Product product)
+        public IActionResult Update(ProductUpdateVM vm)
         {
             if (!ModelState.IsValid)
             {
                 SendCategoriesWithViewBag();
-                return View(product);
+                return View(vm);
             }
-            var isExistProduct = _context.Products.Find(product.Id);
+            var isExistProduct = _context.Products.Find(vm.Id);
 
-            if(isExistProduct == null)
+            if (isExistProduct == null)
             {
                 return NotFound();
             }
-            var isExistCategory = _context.Categories.Any(x => x.Id == product.CategoryId);
-            if(!isExistCategory)
+            var isExistCategory = _context.Categories.Any(x => x.Id == vm.CategoryId);
+            if (!isExistCategory)
             {
                 SendCategoriesWithViewBag();
                 ModelState.AddModelError("CategoryId", "Bu kateqori mevcud deyil");
-                return View(product);
+                return View(vm);
+            }
+            if (!vm.MainImage?.CheckType("image") ?? false)
+            {
+                ModelState.AddModelError("MainImage", "Yalniz sekil formatinda data daxil ede bilersiz");
+                return View(vm);
+            }
+            if (!vm.MainImage?.CheckSize(2) ?? false)
+            {
+                ModelState.AddModelError("MainImage", "Max 2 mb sekil yukleye bilersiz");
+                return View(vm);
+            }
+            if (!vm.HoverImage?.CheckType("image") ?? false)
+            {
+                ModelState.AddModelError("HoverImage", "Yalniz sekil formatinda data daxil ede bilersiz");
+                return View(vm);
+            }
+            if (!vm.HoverImage?.CheckSize(2) ?? false)
+            {
+                ModelState.AddModelError("HoverImage", "Max 2 mb sekil yukleye bilersiz");
+                return View(vm);
             }
 
-            isExistProduct.Name = product.Name;
-            isExistProduct.Description = product.Description;
-            isExistProduct.SKU = product.SKU;
-            isExistProduct.CategoryId = product.CategoryId;
-            isExistProduct.Price = product.Price;
-            isExistProduct.MainImageUrl = product.MainImageUrl;
-            isExistProduct.HoverImageUrl = product.HoverImageUrl;
+            isExistProduct.Name = vm.Name;
+            isExistProduct.Description = vm.Description;
+            isExistProduct.SKU = vm.SKU;
+            isExistProduct.CategoryId = vm.CategoryId;
+            isExistProduct.Price = vm.Price;
+            string folderPath = Path.Combine(_environment.WebRootPath, "assets", "images", "website-images");
+            if (vm.MainImage is { })
+            {
+                string newMainImageName = vm.MainImage.SaveFile(folderPath);
+                if (System.IO.File.Exists(Path.Combine(folderPath, isExistProduct.MainImageUrl)))
+                {
+                    System.IO.File.Delete(Path.Combine(folderPath, isExistProduct.MainImageUrl));
+                }
+                isExistProduct.MainImageUrl = newMainImageName;
+            }
+            if (vm.HoverImage is { })
+            {
+                string newHoverImageName = vm.HoverImage.SaveFile(folderPath);
+                if (System.IO.File.Exists(Path.Combine(folderPath, isExistProduct.HoverImageUrl)))
+                {
+                    System.IO.File.Delete(Path.Combine(folderPath, isExistProduct.HoverImageUrl));
+                }
+                isExistProduct.HoverImageUrl = newHoverImageName;
+
+
+            }
             _context.Products.Update(isExistProduct);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
@@ -98,6 +196,17 @@ namespace Pronia.Areas.Admin.Controllers
             }
             _context.Products.Remove(product);
             _context.SaveChanges();
+
+            string folderPath = Path.Combine(_environment.WebRootPath, "assets", "images", "website-images");
+            if (System.IO.File.Exists(Path.Combine(folderPath, product.MainImageUrl)))
+            {
+                System.IO.File.Delete(Path.Combine(folderPath, product.MainImageUrl));
+            }
+            if (System.IO.File.Exists(Path.Combine(folderPath, product.HoverImageUrl)))
+            {
+                System.IO.File.Delete(Path.Combine(folderPath, product.HoverImageUrl));
+            }
+
             return RedirectToAction(nameof(Index));
         }
         private void SendCategoriesWithViewBag()
