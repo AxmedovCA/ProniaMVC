@@ -18,6 +18,7 @@ namespace Pronia.Controllers
                 Price = product.Price,  
                 SKU = product.SKU,
                 MainImageUrl = product.MainImageUrl,
+                Rating = product.Rating,
             }).ToList();
             return View(products);
         }

@@ -20,5 +20,7 @@ namespace Pronia.ViewModels.ProductViewModels
 
         [Required]
         public IFormFile HoverImage { get; set; }
+
+        public int Rating {  get; set; }
     }
 }

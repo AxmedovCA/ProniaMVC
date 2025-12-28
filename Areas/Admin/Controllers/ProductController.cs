@@ -22,6 +22,8 @@ namespace Pronia.Areas.Admin.Controllers
                 Price = x.Price,
                 SKU = x.SKU,
                 MainImageUrl = x.MainImageUrl,
+                Rating = x.Rating,
+                
             }).ToList();
             return View(vms);
         }
@@ -86,6 +88,7 @@ namespace Pronia.Areas.Admin.Controllers
                 Price = vm.Price,
                 MainImageUrl = mainImaneUniqueName,
                 HoverImageUrl = hoverImaneUniqueName,
+                Rating = vm.Rating,
 
             };
             _context.Products.Add(product);
@@ -111,6 +114,8 @@ namespace Pronia.Areas.Admin.Controllers
                 CategoryId = product.CategoryId,
                 Price = product.Price,
                 SKU = product.SKU,
+                Rating = product.Rating,
+
             };
             return View(vm);
         }
@@ -162,6 +167,7 @@ namespace Pronia.Areas.Admin.Controllers
             isExistProduct.SKU = vm.SKU;
             isExistProduct.CategoryId = vm.CategoryId;
             isExistProduct.Price = vm.Price;
+            isExistProduct.Rating = vm.Rating;
             string folderPath = Path.Combine(_environment.WebRootPath, "assets", "images", "website-images");
             if (vm.MainImage is { })
             {
