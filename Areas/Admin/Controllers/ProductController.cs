@@ -30,7 +30,7 @@ namespace Pronia.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            SendCategoriesWithViewBag();
+            SendItemsWithViewBag();
             return View();
         }
         [HttpPost]
@@ -43,7 +43,7 @@ namespace Pronia.Areas.Admin.Controllers
 
             if (!ModelState.IsValid)
             {
-                SendCategoriesWithViewBag();
+                SendItemsWithViewBag();
                 return View(vm);
             }
 
@@ -51,7 +51,7 @@ namespace Pronia.Areas.Admin.Controllers
             var isExistCategory = _context.Categories.Any(x => x.Id == vm.CategoryId);
             if (!isExistCategory)
             {
-                SendCategoriesWithViewBag();
+                SendItemsWithViewBag();
                 ModelState.AddModelError("", "Bu kateqoriya movcud deyil");
                 return View(vm);
             }
@@ -76,6 +76,32 @@ namespace Pronia.Areas.Admin.Controllers
                 return View(vm);
             }
 
+            foreach(var image in vm.Images)
+            {
+                if (!image.CheckType("image"))
+                {
+                    ModelState.AddModelError("Images", "Yalniz sekil formatinda data daxil ede bilersiz");
+                    return View(vm);
+                }
+                if (!image.CheckSize(2))
+                {
+                    ModelState.AddModelError("Images", "Max 2 mb sekil yukleye bilersiz");
+                    return View(vm);
+                }
+            }
+
+            foreach(var tagId in vm.TagIds)
+            {
+                var isExist = _context.Tags.Any(x => x.Id == tagId);
+                if (isExist is false)
+                {
+                    SendItemsWithViewBag();
+                    ModelState.AddModelError("", "Bu tag movcud deyil");
+                    return View(vm);    
+                }
+
+            }
+
             string folderPath = Path.Combine(_environment.WebRootPath, "assets", "images", "website-images");
             string mainImaneUniqueName = vm.MainImage.SaveFile(folderPath);
             string hoverImaneUniqueName = vm.HoverImage.SaveFile(folderPath);
@@ -89,8 +115,31 @@ namespace Pronia.Areas.Admin.Controllers
                 MainImageUrl = mainImaneUniqueName,
                 HoverImageUrl = hoverImaneUniqueName,
                 Rating = vm.Rating,
+                ProductTags = [],
+                ProductImages = []
 
             };
+
+            foreach(var image in vm.Images)
+            {
+                string ImaneUniqueName = image.SaveFile(folderPath);
+                ProductImage productImage = new()
+                {
+                    ImageUrl = ImaneUniqueName,
+                    Product = product
+                };
+                product.ProductImages.Add(productImage);
+            }
+
+            foreach(var tagId in vm.TagIds)
+            {
+                ProductTag productTag = new()
+                {
+                    TagId = tagId,
+                    Product = product
+                };
+                product.ProductTags.Add(productTag);
+            }
             _context.Products.Add(product);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
@@ -100,12 +149,12 @@ namespace Pronia.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
-            var product = _context.Products.Find(id);
+            var product = _context.Products.Include(x=>x.ProductTags).Include(x=>x.ProductImages).FirstOrDefault(x=>x.Id == id);
             if (product == null)
             {
                 return NotFound();
             }
-            SendCategoriesWithViewBag();
+            SendItemsWithViewBag();
             ProductUpdateVM vm = new ProductUpdateVM()
             {
                 Id = product.Id,
@@ -115,6 +164,11 @@ namespace Pronia.Areas.Admin.Controllers
                 Price = product.Price,
                 SKU = product.SKU,
                 Rating = product.Rating,
+                TagIds = product.ProductTags.Select(x=>x.TagId).ToList(),
+                HoverImageUrl = product.HoverImageUrl,
+                MainImageUrl = product.MainImageUrl,
+                ImagesUrls = product.ProductImages.Select(x=>x.ImageUrl).ToList(),
+                
 
             };
             return View(vm);
@@ -125,10 +179,10 @@ namespace Pronia.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                SendCategoriesWithViewBag();
+                SendItemsWithViewBag();
                 return View(vm);
             }
-            var isExistProduct = _context.Products.Find(vm.Id);
+            var isExistProduct = _context.Products.Include(x=>x.ProductTags).FirstOrDefault(x=>x.Id ==vm.Id);
 
             if (isExistProduct == null)
             {
@@ -137,9 +191,20 @@ namespace Pronia.Areas.Admin.Controllers
             var isExistCategory = _context.Categories.Any(x => x.Id == vm.CategoryId);
             if (!isExistCategory)
             {
-                SendCategoriesWithViewBag();
+                SendItemsWithViewBag();
                 ModelState.AddModelError("CategoryId", "Bu kateqori mevcud deyil");
                 return View(vm);
+            }
+            foreach (var tagId in vm.TagIds)
+            {
+                var isExist = _context.Tags.Any(x => x.Id == tagId);
+                if (isExist is false)
+                {
+                    SendItemsWithViewBag();
+                    ModelState.AddModelError("", "Bu tag movcud deyil");
+                    return View(vm);
+                }
+
             }
             if (!vm.MainImage?.CheckType("image") ?? false)
             {
@@ -189,13 +254,24 @@ namespace Pronia.Areas.Admin.Controllers
 
 
             }
+           
+            isExistProduct.ProductTags = [];
+            foreach (var tagId in vm.TagIds)
+            {
+                ProductTag productTag = new()
+                {
+                    TagId = tagId,
+                    ProductId = isExistProduct.Id
+                };
+                isExistProduct.ProductTags.Add(productTag); 
+            }
             _context.Products.Update(isExistProduct);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
         public IActionResult Delete(int id)
         {
-            var product = _context.Products.Find(id);
+            var product = _context.Products.Include(x=>x.ProductImages).FirstOrDefault(x=>x.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -212,14 +288,49 @@ namespace Pronia.Areas.Admin.Controllers
             {
                 System.IO.File.Delete(Path.Combine(folderPath, product.HoverImageUrl));
             }
-
+            foreach(var productImage in product.ProductImages)
+            {
+                if (System.IO.File.Exists(Path.Combine(folderPath, productImage.ImageUrl)))
+                {
+                    System.IO.File.Delete(Path.Combine(folderPath, productImage.ImageUrl));
+                }
+            }
             return RedirectToAction(nameof(Index));
         }
-        private void SendCategoriesWithViewBag()
+
+        public IActionResult Detail(int id)
+        {
+            var products = _context.Products.Select(x=>new ProductGetVM()
+            {
+				Id = x.Id,
+				Name = x.Name,
+				Description = x.Description,
+				CategoryName = x.Category.Name,
+				HoverImageUrl = x.HoverImageUrl,
+				Price = x.Price,
+				SKU = x.SKU,
+				MainImageUrl = x.MainImageUrl,
+				Rating = x.Rating,
+                TagsName = x.ProductTags.Select(x=>x.Tag.Name).ToList(),
+                ImageUrls = x.ProductImages.Select(x=>x.ImageUrl).ToList()
+			}).FirstOrDefault(x=>x.Id ==id); 
+            if(products == null)
+            {
+                return NotFound();
+            }
+            return View(products);
+        }
+        private void SendItemsWithViewBag()
         {
             var categories = _context.Categories.ToList();
 
             ViewBag.Categories = categories;
+
+            var tags = _context.Tags.ToList();
+
+            ViewBag.Tags = tags;    
         }
+
+        
     }
 }

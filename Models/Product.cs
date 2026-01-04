@@ -26,6 +26,10 @@ namespace Pronia.Models
         public string HoverImageUrl { get; set; }
 
         public int Rating { get; set; }
-        
+
+        public ICollection<ProductTag> ProductTags { get; set; } = [];
+
+        public ICollection<ProductImage> ProductImages { get; set; } = [];
+
     }
 }

@@ -22,5 +22,8 @@
         public IFormFile? HoverImage { get; set; }
 
         public int Rating { get; set; }
+
+        public List<string> TagsName { get; set; }
+        public List<string> ImageUrls { get; set; }
     }
 }

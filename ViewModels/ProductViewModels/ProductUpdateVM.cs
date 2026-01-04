@@ -16,12 +16,19 @@ namespace Pronia.ViewModels.ProductViewModels
         public string? SKU { get; set; }
         [Required]
         public int CategoryId { get; set; }
-
-
+            
+        public List<int> TagIds { get; set; } = [];
         public IFormFile? MainImage { get; set; }
 
   
         public IFormFile? HoverImage { get; set; }
+
+        public List<IFormFile>? Images { get; set; } = [];
         public int Rating { get; set; }
+
+        public string? MainImageUrl { get; set; }
+        public string? HoverImageUrl { get; set; }
+
+        public List<string> ImagesUrls { get; set; }
     }
 }
