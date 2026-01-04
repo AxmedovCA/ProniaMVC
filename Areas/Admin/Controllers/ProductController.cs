@@ -12,7 +12,7 @@ namespace Pronia.Areas.Admin.Controllers
     {
         public IActionResult Index()
         {
-            List<ProductGetVM> vms = _context.Products.Include(x => x.Category).Select(x => new ProductGetVM()
+            List<ProductGetVM> vms = _context.Products.Include(x => x.Category).Include(x=>x.Brand).Select(x => new ProductGetVM()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -23,7 +23,7 @@ namespace Pronia.Areas.Admin.Controllers
                 SKU = x.SKU,
                 MainImageUrl = x.MainImageUrl,
                 Rating = x.Rating,
-                
+                BrandName = x.Brand.Name
             }).ToList();
             return View(vms);
         }
@@ -116,8 +116,8 @@ namespace Pronia.Areas.Admin.Controllers
                 HoverImageUrl = hoverImaneUniqueName,
                 Rating = vm.Rating,
                 ProductTags = [],
-                ProductImages = []
-
+                ProductImages = [],
+                BrandId = vm.BrandId,
             };
 
             foreach(var image in vm.Images)
@@ -168,7 +168,7 @@ namespace Pronia.Areas.Admin.Controllers
                 HoverImageUrl = product.HoverImageUrl,
                 MainImageUrl = product.MainImageUrl,
                 ImagesUrls = product.ProductImages.Select(x=>x.ImageUrl).ToList(),
-                
+                BrandId = product.BrandId,
 
             };
             return View(vm);
@@ -193,6 +193,13 @@ namespace Pronia.Areas.Admin.Controllers
             {
                 SendItemsWithViewBag();
                 ModelState.AddModelError("CategoryId", "Bu kateqori mevcud deyil");
+                return View(vm);
+            }
+            var isExistBrand = _context.Brands.Any(x=>x.Id == vm.BrandId);
+            if (!isExistBrand)
+            {
+                SendItemsWithViewBag();
+                ModelState.AddModelError("BrandId", "Bu Brand mevcud deyil");
                 return View(vm);
             }
             foreach (var tagId in vm.TagIds)
@@ -233,6 +240,7 @@ namespace Pronia.Areas.Admin.Controllers
             isExistProduct.CategoryId = vm.CategoryId;
             isExistProduct.Price = vm.Price;
             isExistProduct.Rating = vm.Rating;
+            isExistProduct.BrandId = vm.BrandId;
             string folderPath = Path.Combine(_environment.WebRootPath, "assets", "images", "website-images");
             if (vm.MainImage is { })
             {
@@ -312,7 +320,9 @@ namespace Pronia.Areas.Admin.Controllers
 				MainImageUrl = x.MainImageUrl,
 				Rating = x.Rating,
                 TagsName = x.ProductTags.Select(x=>x.Tag.Name).ToList(),
-                ImageUrls = x.ProductImages.Select(x=>x.ImageUrl).ToList()
+                ImageUrls = x.ProductImages.Select(x=>x.ImageUrl).ToList(),
+                BrandName = x.Brand.Name,
+                
 			}).FirstOrDefault(x=>x.Id ==id); 
             if(products == null)
             {
@@ -328,7 +338,11 @@ namespace Pronia.Areas.Admin.Controllers
 
             var tags = _context.Tags.ToList();
 
-            ViewBag.Tags = tags;    
+            ViewBag.Tags = tags;  
+            
+            var brands  = _context.Brands.ToList();
+            ViewBag.Brands = brands;
+            
         }
 
         

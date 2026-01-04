@@ -15,6 +15,8 @@ namespace Pronia.ViewModels.ProductViewModels
         [Required]
         public int CategoryId { get; set; }
 
+        [Required]
+        public int BrandId { get; set; }
         public List<int> TagIds { get; set; }
    
         [Required]

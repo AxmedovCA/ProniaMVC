@@ -17,6 +17,7 @@
 					<th scope="col">Description</th>
 					<th scope="col">Price </th>
 					<th scope="col">Category Name </th>
+					<th scope="col">Brand Name </th>
 					<th scope="col">Actions</th>
 
 				</tr>
@@ -31,6 +32,7 @@
 						<td>@product.Description</td>
 						<td>@product.Price</td>
 						<td>@product.CategoryName</td>
+						<td>@product.BrandName</td>
 						<td>
 							<a class="btn btn-primary" asp-action="Detail" asp-route-id="@product.Id">Detail</a>
 							<a class="btn btn-warning" asp-action="Update" asp-route-id="@product.Id">Uptade</a>

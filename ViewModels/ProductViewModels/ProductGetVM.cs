@@ -13,6 +13,8 @@
       
         public string CategoryName { get; set; }
 
+ 
+        public string BrandName { get; set; }
 
         public string   MainImageUrl { get; set; }
 

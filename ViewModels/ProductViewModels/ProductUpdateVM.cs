@@ -16,7 +16,7 @@ namespace Pronia.ViewModels.ProductViewModels
         public string? SKU { get; set; }
         [Required]
         public int CategoryId { get; set; }
-            
+        public int BrandId {  get; set; }    
         public List<int> TagIds { get; set; } = [];
         public IFormFile? MainImage { get; set; }
 
