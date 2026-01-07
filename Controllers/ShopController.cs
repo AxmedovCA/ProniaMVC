@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pronia.Contexts;
 using Pronia.ViewModels.ProductViewModels;
 
@@ -6,6 +7,7 @@ namespace Pronia.Controllers
 {
     public class ShopController(AppDbContext _context) : Controller
     {
+        [Authorize]
         public IActionResult Index()
         {
             var products = _context.Products.Select(product=>new ProductGetVM()

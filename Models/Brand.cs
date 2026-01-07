@@ -5,7 +5,6 @@ namespace Pronia.Models
 {
     public class Brand:BaseEntity
     {
-        [MaxLength(256)]
         public string Name { get; set; }
     }
 }

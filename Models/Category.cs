@@ -5,7 +5,9 @@ namespace Pronia.Models
     public class Category : BaseEntity
     {
        
-        [MaxLength(256)]
+     
         public string Name { get; set; }
+
+        public ICollection<Product> Products { get; set;}
     }
 }
