@@ -1268,11 +1268,34 @@
         </a>
         <!-- Scroll To Top End Here -->
     </div>
-
+    <input type="hidden" id="successMessage" value="@TempData["SuccessMessage"]">
+    <input type="hidden" id="errorMessage" value="@TempData["ErrorMessage"]">
     <!-- Global Vendor, plugins JS -->
     <!-- JS Files
     ============================================ -->
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const successInput = document.querySelector("#successMessage")
+        const errorInput = document.querySelector("#errorMessage")
+        if (successInput.value != null && successInput.value.length > 0)
+        { 
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: successInput.value,
+            showConfirmButton: true,
+           
+        });}
+        if (errorInput.value != null && errorInput.value.length > 0) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: errorInput.value,
+               
+            });
+        }
+        
+        </script>
     <script src="~/assets/js/vendor/bootstrap.bundle.min.js"></script>
     <script src="~/assets/js/vendor/jquery-3.6.0.min.js"></script>
     <script src="~/assets/js/vendor/jquery-migrate-3.3.2.min.js"></script>
